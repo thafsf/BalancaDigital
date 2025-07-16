@@ -1,0 +1,35 @@
+#include "HX711.h"
+
+// Pinos do sensor de peso HX711
+const int LOADCELL_DOUT_PIN = 21;
+const int LOADCELL_SCK_PIN = 22;
+
+HX711 scale;
+
+void setup() {
+  Serial.begin(115200);
+  Serial.println("--- Calibração da Balança HX711 ---");
+  
+  scale.begin(LOADCELL_DOUT_PIN, LOADCELL_SCK_PIN);
+  
+  Serial.println("Remova qualquer peso da balança.");
+  Serial.println("Aguardando 5 segundos...");
+  delay(5000);
+  
+  scale.tare(20); // Zera a balança
+  
+  Serial.println("Balança tarada (zerada).");
+  Serial.println("Coloque um objeto de peso conhecido na balança.");
+  Serial.println("Aguarde e anote o valor de leitura abaixo.");
+}
+
+void loop() {
+  if (scale.is_ready()) {
+    long reading = scale.get_value(100); // Média de 10 leituras
+    Serial.print("Valor da Leitura: "); //se a leitura foi 450500 e você usou um peso de 1000g, seu fator é 450500 / 1000 = 450.5.  
+    Serial.println(reading);
+  } else {
+    Serial.println("HX711 não encontrado.");
+  }
+  delay(1000); // Aguarda 1 segundo entre as leituras
+}
