@@ -26,6 +26,7 @@ struct CalibrationPoint {
 //    O primeiro ponto DEVE ser {0, 0.0}.
 //    Adicione quantos pontos quiser, em ordem crescente de peso.
 const CalibrationPoint calibration_points[] = {
+  {450, 0.0},
   {450000, 1000.0},
   {900000, 2000.0},
   {1350300, 3000.0},
